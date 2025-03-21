@@ -11,7 +11,6 @@ Protocol 2
 
 # Disable root login
 PermitRootLogin no
-PermitRootLogin prohibit-password
 
 # Allow only specific users
 AllowUsers <YOUR USER>
