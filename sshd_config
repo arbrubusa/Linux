@@ -1,0 +1,54 @@
+# Config file for a more secure SSH access to your server.
+# If you need added security, install fail2ban (https://github.com/fail2ban/fail2ban)!
+
+Include /etc/ssh/sshd_config.d/*.conf
+
+# Change default port (helps prevent automated attacks)
+Port 2222
+
+# Allow only secure protocols
+Protocol 2
+
+# Disable root login
+PermitRootLogin no
+PermitRootLogin prohibit-password
+
+# Allow only specific users
+AllowUsers <YOUR USER>
+
+# Allow only specific groups (if you have a lot of uers, add them to a group)
+#AllowGroups <SSH GROUP>
+
+# Disable password authentication (use public key authentication only)
+PasswordAuthentication no
+PubkeyAuthentication yes
+AuthorizedKeysFile %h/.ssh/authorized_keys
+ChallengeResponseAuthentication no
+
+# Disable host-based and GSSAPI authentication (rarely used and vulnerable)
+HostbasedAuthentication no
+GSSAPIAuthentication no
+
+# Limit login attempts to prevent brute-force attacks
+MaxAuthTries 5
+
+# Disconnect idle users
+ClientAliveInterval 300
+ClientAliveCountMax 2
+
+# Protect against brute-force attacks with login rate-limiting
+LoginGraceTime 30
+MaxStartups 2:5:10
+
+# Disable X11 Forwarding (if not required)
+X11Forwarding no
+
+# Prevent TCP tunneling to avoid firewall bypass
+AllowTcpForwarding no
+PermitTunnel no
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
+
+# Override default subsystem settings
+Subsystem       sftp    /usr/lib/openssh/sftp-server
